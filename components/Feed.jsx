@@ -62,17 +62,16 @@ const Feed = () => {
 
   return (
     <section className="feed">
-      <form className="relative w-full flex-center">
+      <section className="relative w-full flex-center">
         <input
           type="text"
           placeholder="Search for a tag or a username"
           value={searchText}
           onChange={handleSearchChange}
-          onKeyDown={(e) => e.preventDefault}
           required
           className="search_input peer"
         />
-      </form>
+      </section>
 
       {/* All Prompts */}
       {searchText ? (
