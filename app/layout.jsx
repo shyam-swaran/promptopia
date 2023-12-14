@@ -4,7 +4,7 @@ import "@styles/global.css";
 import Head from "next/head";
 
 export const metadata = {
-  title: "Promtopia",
+  title: "Promptopia",
   description: "Discover & Share AI Promts",
   icons: {
     icon: "/icon.svg",
