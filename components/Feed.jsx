@@ -68,6 +68,7 @@ const Feed = () => {
           placeholder="Search for a tag or a username"
           value={searchText}
           onChange={handleSearchChange}
+          onKeyDown={(e) => e.preventDefault}
           required
           className="search_input peer"
         />
