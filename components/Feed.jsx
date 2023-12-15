@@ -30,6 +30,7 @@ const Feed = () => {
   const { data: allPosts } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
+    refetchInterval: 10000,
   });
 
   const filterPrompts = (searchtext) => {
