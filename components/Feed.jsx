@@ -7,7 +7,7 @@ const fetchPosts = async () => {
   const response = await fetch("/api/prompt", {
     cache: "no-cache",
     next: {
-      revalidate: 5000,
+      revalidate: 10,
     },
   });
   return await response.json();
@@ -32,7 +32,6 @@ const Feed = () => {
   const { data: allPosts } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
-    refetchIntervalInBackground: 5000,
   });
 
   const filterPrompts = (searchtext) => {
