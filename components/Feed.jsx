@@ -1,13 +1,15 @@
 "use client";
-export const revalidate = 10;
 import { useState } from "react";
-
 import PromptCard from "./PromptCard";
-
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPosts = async () => {
-  const response = await fetch("/api/prompt");
+  const response = await fetch("/api/prompt", {
+    cache: "no-cache",
+    next: {
+      revalidate: 5000,
+    },
+  });
   return await response.json();
 };
 
@@ -30,7 +32,7 @@ const Feed = () => {
   const { data: allPosts } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
-    refetchInterval: 10000,
+    refetchIntervalInBackground: 5000,
   });
 
   const filterPrompts = (searchtext) => {
