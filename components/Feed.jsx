@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const fetchPosts = async () => {
   const response = await fetch("/api/prompt", {
-    cache: "no-cache",
+    cache: "no-store",
     next: {
       revalidate: 10,
     },
@@ -32,6 +32,7 @@ const Feed = () => {
   const { data: allPosts } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
+    refetchInterval: 1000,
   });
 
   const filterPrompts = (searchtext) => {
