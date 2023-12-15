@@ -1,8 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PromptCard from "./PromptCard";
-import { useQuery } from "@tanstack/react-query";
-import { fetchPosts } from "./fetchPosts";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -15,16 +13,26 @@ const PromptCardList = ({ data, handleTagClick }) => {
 };
 
 const Feed = () => {
+  const [allPosts, setAllPosts] = useState([]);
   // Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
-  const { data: allPosts } = useQuery({
-    queryKey: ["posts"],
-    queryFn: fetchPosts,
-    refetchInterval: 10000,
-  });
+  const fetchPosts = async () => {
+    const response = await fetch("/api/prompt", {
+      cache: "no-store",
+      next: {
+        revalidate: 10,
+      },
+    });
+    const val = await response.json();
+    setAllPosts(val);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
