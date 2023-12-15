@@ -3,6 +3,7 @@ export const revalidate = 10;
 import { useState, useEffect } from "react";
 
 import PromptCard from "./PromptCard";
+import { useRouter } from "next/router";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -15,6 +16,7 @@ const PromptCardList = ({ data, handleTagClick }) => {
 };
 
 const Feed = () => {
+  const router = useRouter();
   const [allPosts, setAllPosts] = useState([]);
 
   // Search states
@@ -32,6 +34,7 @@ const Feed = () => {
   };
 
   useEffect(() => {
+    router.refresh();
     fetchPosts();
   }, []);
 
