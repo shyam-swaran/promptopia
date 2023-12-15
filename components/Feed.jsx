@@ -1,14 +1,20 @@
 "use client";
 export const revalidate = 10;
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import PromptCard from "./PromptCard";
-import { useRouter } from "next/router";
+
+import { useQuery } from "@tanstack/react-query";
+
+const fetchPosts = async () => {
+  const response = await fetch("/api/prompt");
+  return await response.json();
+};
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
     <div className="mt-16 prompt_layout">
-      {data.map((post) => (
+      {data?.map((post) => (
         <PromptCard key={post._id} post={post} handleTagClick={handleTagClick} />
       ))}
     </div>
@@ -16,27 +22,15 @@ const PromptCardList = ({ data, handleTagClick }) => {
 };
 
 const Feed = () => {
-  const router = useRouter();
-  const [allPosts, setAllPosts] = useState([]);
-
   // Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
-  const fetchPosts = async () => {
-    const response = await fetch("/api/prompt", {
-      cache: "no-store",
-    });
-    const data = await response.json();
-
-    setAllPosts(data);
-  };
-
-  useEffect(() => {
-    router.refresh();
-    fetchPosts();
-  }, []);
+  const { data: allPosts } = useQuery({
+    queryKey: ["posts"],
+    queryFn: fetchPosts,
+  });
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search

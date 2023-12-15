@@ -1,7 +1,7 @@
 import Nav from "@components/Nav";
 import Provider from "@components/Provider";
 import "@styles/global.css";
-import Head from "next/head";
+import ReactQueryProvider from "./ReactQueryProvider";
 
 export const metadata = {
   title: "Promptopia",
@@ -15,16 +15,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Provider>
-          <div className="main">
-            <div className="gradient"></div>
-          </div>
+        <ReactQueryProvider>
+          <Provider>
+            <div className="main">
+              <div className="gradient"></div>
+            </div>
 
-          <main className="app">
-            <Nav />
-            {children}
-          </main>
-        </Provider>
+            <main className="app">
+              <Nav />
+              {children}
+            </main>
+          </Provider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
