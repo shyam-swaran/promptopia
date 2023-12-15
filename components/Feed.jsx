@@ -2,16 +2,7 @@
 import { useState } from "react";
 import PromptCard from "./PromptCard";
 import { useQuery } from "@tanstack/react-query";
-
-const fetchPosts = async () => {
-  const response = await fetch("/api/prompt", {
-    cache: "no-store",
-    next: {
-      revalidate: 10,
-    },
-  });
-  return await response.json();
-};
+import { fetchPosts } from "./fetchPosts";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -32,7 +23,7 @@ const Feed = () => {
   const { data: allPosts } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
-    refetchInterval: 1000,
+    refetchInterval: 10000,
   });
 
   const filterPrompts = (searchtext) => {
