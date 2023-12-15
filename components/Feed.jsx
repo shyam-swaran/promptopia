@@ -1,5 +1,5 @@
 "use client";
-
+export const revalidate = 10;
 import { useState, useEffect } from "react";
 
 import PromptCard from "./PromptCard";
@@ -24,9 +24,7 @@ const Feed = () => {
 
   const fetchPosts = async () => {
     const response = await fetch("/api/prompt", {
-      next: {
-        revalidate: 10,
-      },
+      cache: "no-store",
     });
     const data = await response.json();
 
